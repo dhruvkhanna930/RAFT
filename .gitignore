@@ -11,7 +11,7 @@ build/
 data/raw/
 data/processed/
 data/poisoned/
-results/
+results/exp07_ollama_backup/
 *.log
 .DS_Store
 data/indices/
