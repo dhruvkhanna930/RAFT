@@ -1,0 +1,22 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = ["E", "F", "I"]   # pycodestyle errors, pyflakes, isort
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+pythonpath = ["."]   # makes `from src.xxx import ...` work without install
+markers = [
+    "slow: marks tests that load ML models (deselect with '-m \"not slow\"')",
+]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
