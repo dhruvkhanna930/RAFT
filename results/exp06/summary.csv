@@ -1,0 +1,16 @@
+attack,defense,n_questions,asr,mean_f1_at_k
+hybrid,none,20,85.00%,1.0000
+hybrid,perplexity,20,85.00%,1.0000
+hybrid,query_paraphrase,20,80.00%,1.0000
+hybrid,unicode_normalize,20,95.00%,0.0000
+hybrid,zero_width_strip,20,95.00%,0.0000
+semantic,none,20,95.00%,1.0000
+semantic,perplexity,20,95.00%,1.0000
+semantic,query_paraphrase,20,85.00%,1.0000
+semantic,unicode_normalize,20,95.00%,1.0000
+semantic,zero_width_strip,20,95.00%,1.0000
+unicode,none,20,40.00%,0.7500
+unicode,perplexity,20,35.00%,0.7500
+unicode,query_paraphrase,20,50.00%,0.8900
+unicode,unicode_normalize,20,40.00%,0.0000
+unicode,zero_width_strip,20,40.00%,0.0000
