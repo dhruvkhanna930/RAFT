@@ -1,0 +1,59 @@
+# models.yaml — LLM and embedder model IDs.
+#
+# Ollama models are used for local dev (Phases 1–3).
+# API models are used for final evaluation tables (Phase 5).
+# Embedders are always local via sentence-transformers.
+
+# ── Local (Ollama) ────────────────────────────────────────────────────────────
+ollama:
+  base_url: "http://localhost:11434"
+  models:
+    phi3_mini:
+      id: "phi3:mini"
+      context_length: 4096
+      note: "fastest iteration — use for quick smoke-tests"
+    llama3_8b:
+      id: "llama3.1:8b"
+      context_length: 8192
+      default: true             # used for all Phase 1–3 dev runs
+    qwen2_5_7b:
+      id: "qwen2.5:7b"
+      context_length: 32768
+    mistral_7b:
+      id: "mistral:7b"
+      context_length: 8192
+
+# ── API models (final results, Phase 5) ──────────────────────────────────────
+openai:
+  model: "gpt-4o-mini"
+  api_key_env: "OPENAI_API_KEY"
+
+anthropic:
+  model: "claude-haiku-4-5-20251001"
+  api_key_env: "ANTHROPIC_API_KEY"
+
+deepseek:
+  model: "deepseek-chat"                  # DeepSeek-V3
+  base_url: "https://api.deepseek.com"
+  api_key_env: "DEEPSEEK_API_KEY"
+
+# ── Embedders (sentence-transformers, always local) ───────────────────────────
+embedders:
+  contriever:
+    hf_id: "facebook/contriever"
+    dim: 768
+    default: true               # matches PoisonedRAG experimental setup
+  contriever_msmarco:
+    hf_id: "facebook/contriever-msmarco"
+    dim: 768
+  bge_base:
+    hf_id: "BAAI/bge-base-en-v1.5"
+    dim: 768
+  e5_base:
+    hf_id: "intfloat/e5-base-v2"
+    dim: 768
+
+# ── Perplexity scorer (stealth metrics) ──────────────────────────────────────
+perplexity_scorer:
+  model: "gpt2"                 # local, no API key needed
+  device: "cpu"                 # override to "cuda" when available

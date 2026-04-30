@@ -1,0 +1,61 @@
+# datasets.yaml — Dataset identifiers and loading parameters.
+#
+# Scale control lives here and ONLY here.
+# corpus_size: -1  → load the entire corpus  (full run)
+#              N>0 → cap at N passages        (dev / smoke-test run)
+# n_questions: -1  → evaluate all questions  (full run)
+#              N>0 → cap at N questions       (dev / smoke-test run)
+#
+# No other layer (RAG, attack, defense, metric) reads these fields.
+# Experiment scripts pass the loaded corpus/questions as plain lists;
+# the interfaces never know how large they are.
+
+datasets:
+  nq:
+    hf_id: "nq_open"            # HuggingFace dataset id
+    beir_id: "nq"               # BEIR subset id (for retrieval eval)
+    total_passages: 2600000     # informational — full corpus size
+    corpus_size: -1             # -1 = full; override to e.g. 10000 for dev
+    n_questions: -1             # -1 = all;  override to e.g. 100  for dev
+    splits: [train, validation]
+    question_field: "question"
+    answer_field: "answer"
+
+  hotpotqa:
+    hf_id: "hotpot_qa"
+    beir_id: "hotpotqa"
+    total_passages: 5200000
+    corpus_size: -1
+    n_questions: -1
+    hf_config: "distractor"     # HuggingFace dataset config name
+    splits: [train, validation]
+    question_field: "question"
+    answer_field: "answer"
+
+  msmarco:
+    hf_id: "ms_marco"
+    beir_id: "msmarco"
+    total_passages: 8800000
+    corpus_size: -1
+    n_questions: -1
+    hf_config: "v2.1"
+    splits: [train, validation]
+    question_field: "query"
+    answer_field: "answers"
+
+  fever:                        # optional — fact verification track
+    hf_id: "fever"
+    beir_id: "fever"
+    total_passages: 5400000
+    corpus_size: -1
+    n_questions: -1
+    hf_config: "v1.0"
+    splits: [train, paper_dev]
+    question_field: "claim"
+    answer_field: "label"
+
+# Local storage roots (relative to repo root)
+paths:
+  raw: "data/raw"
+  processed: "data/processed"
+  poisoned: "data/poisoned"

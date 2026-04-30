@@ -1,0 +1,45 @@
+# rag_variants.yaml — RAG variant settings.
+#
+# defaults: applied to any variant that omits the field.
+# Extra variant-specific keys are forwarded verbatim into RagVariantCfg.extra.
+
+defaults:
+  retriever: "contriever"
+  top_k: 5
+
+vanilla:
+  enabled: true
+  retriever: "contriever"
+  top_k: 5
+
+self_rag:
+  enabled: true
+  retriever: "contriever"
+  top_k: 5
+  upstream_repo: "https://github.com/AkariAsai/self-rag"
+  hf_model_id: "selfrag/selfrag_llama2_7b"
+  use_vllm: false               # set true if vllm is installed
+
+crag:
+  enabled: true
+  retriever: "contriever"
+  top_k: 5
+  upstream_repo: "https://github.com/HuskyInSalt/CRAG"
+  relevance_threshold: 0.5
+  use_web_fallback: false       # disabled during eval to avoid data contamination
+
+trust_rag:
+  enabled: true
+  retriever: "contriever"
+  top_k: 5
+  upstream_repo: "https://github.com/HuichiZhou/TrustRAG"
+  kmeans_clusters: 2
+  trust_threshold: 0.8
+
+robust_rag:
+  enabled: true
+  retriever: "contriever"
+  top_k: 5
+  upstream_repo: "https://github.com/inspire-group/RobustRAG"
+  isolation_strategy: "per_passage"
+  aggregation: "majority_vote"

@@ -1,0 +1,49 @@
+# attacks.yaml — Per-attack hyper-parameters.
+#
+# injection_budget: how many adversarial passages are injected per question.
+# All other fields are attack-specific tuning knobs.
+
+injection_budget: 5
+
+# ── PoisonedRAG (visible-text baseline) ──────────────────────────────────────
+poisoned_rag:
+  enabled: true
+  num_adv_passages: 5           # passages crafted per target question
+  num_iterations: 50            # black-box optimisation iterations
+  retrieval_top_k: 5            # retrieval condition: must appear in top-k
+  target_answer_position: "first_sentence"
+
+# ── RAG-Pull (Unicode perturbation, from paper) ───────────────────────────────
+rag_pull:
+  enabled: true
+  perturbation_budget: 50       # max invisible chars to insert
+  char_categories:              # character categories from unicode_chars.py
+    - zero_width_joiner
+    - zero_width_non_joiner
+    - zero_width_space
+    - word_joiner
+    - soft_hyphen
+    - tag_chars
+  optimizer: "differential_evolution"
+  de_population: 20
+  de_max_iter: 100
+  de_mutation: 0.8
+  de_crossover: 0.9
+  insertion_strategy: "whitespace"   # whitespace | random | boundary
+
+# ── Hybrid (YOUR CONTRIBUTION: semantic + Unicode) ────────────────────────────
+hybrid:
+  enabled: true
+  # Stage 1 — semantic passage construction (PoisonedRAG style)
+  num_adv_passages: 5
+  num_iterations: 50
+  # Stage 2 — Unicode retrieval trigger (RAG-Pull style)
+  perturbation_budget: 30
+  char_categories:
+    - zero_width_joiner
+    - zero_width_space
+    - tag_chars
+  optimizer: "differential_evolution"
+  de_population: 20
+  de_max_iter: 100
+  trigger_location: "prefix"    # prefix | suffix | interleaved

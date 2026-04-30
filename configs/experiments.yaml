@@ -1,0 +1,124 @@
+# experiments.yaml — Controls what 07_full_matrix.py runs.
+#
+# Change `profile` to switch between smoke / small / full without code edits.
+# Each profile defines scale (corpus, questions) and which dimensions to iterate.
+# Hyperparameters below profiles are shared across all runs.
+
+profile: small
+
+profiles:
+  # ── Smoke: verify the loop works end-to-end (~2 min) ────────────────────
+  smoke:
+    corpus_size: 1000
+    n_questions: 3
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla"]
+    attacks: ["semantic"]
+    defenses: ["none"]
+
+  # ── trust_hybrid: does hybrid bypass TrustRAG K-means? (~5 min) ──────────
+  trust_hybrid:
+    corpus_size: 10000
+    n_questions: 20
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["trust_rag"]
+    attacks: ["semantic", "hybrid"]
+    defenses: ["none"]
+
+  # ── RAG-smoke: verify all 5 RAG variants run end-to-end (~5 min) ────────
+  rag_smoke:
+    corpus_size: 1000
+    n_questions: 3
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla", "self_rag", "crag", "trust_rag", "robust_rag"]
+    attacks: ["semantic"]
+    defenses: ["none"]
+
+  # ── Small: local dev with meaningful results (~40 min) ──────────────────
+  small:
+    corpus_size: 10000
+    n_questions: 20
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla"]
+    attacks: ["semantic", "unicode", "hybrid"]
+    defenses: ["none", "unicode_normalize", "zero_width_strip", "perplexity"]
+    # Reduced DE params for speed — ~1 min/Q instead of ~21 min/Q
+    perturbation_budget: 20
+    de_population: 10
+    de_max_iter: 30
+
+  # ── colab_test: GPU warm-up / flow verification (20Q, all variants) ───────
+  colab_test:
+    corpus_size: 10000
+    n_questions: 20
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla", "self_rag", "crag", "trust_rag", "robust_rag"]
+    attacks: ["semantic", "unicode", "hybrid"]
+    defenses: ["none", "unicode_normalize", "zero_width_strip", "perplexity"]
+    # budget=20 confirmed working; budget=50 breaks Contriever retrieval
+    perturbation_budget: 20
+    de_population: 10
+    de_max_iter: 30
+
+  # ── thesis_full: 100Q paper results (Colab Pro A100 / GPU cluster) ─────────
+  thesis_full:
+    corpus_size: 10000
+    n_questions: 100
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla", "self_rag", "crag", "trust_rag", "robust_rag"]
+    attacks: ["semantic", "unicode", "hybrid"]
+    defenses: ["none", "unicode_normalize", "zero_width_strip", "perplexity"]
+    # budget=20 is the validated sweet spot — TAG chars boost retrieval
+    # without dominating the Contriever embedding (budget=50 causes P@5=0)
+    perturbation_budget: 20
+    de_population: 12
+    de_max_iter: 40
+
+  # ── Medium: all RAG variants, one dataset ───────────────────────────────
+  medium:
+    corpus_size: 10000
+    n_questions: 50
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla", "self_rag", "crag", "trust_rag", "robust_rag"]
+    attacks: ["semantic", "unicode", "hybrid"]
+    defenses: ["none", "query_paraphrase", "perplexity", "unicode_normalize", "zero_width_strip"]
+    perturbation_budget: 30
+    de_population: 12
+    de_max_iter: 40
+
+  # ── Full: paper results (Colab Pro / GPU cluster) ───────────────────────
+  full:
+    corpus_size: -1
+    n_questions: 100
+    model: "qwen2.5:7b"
+    datasets: ["nq"]
+    rag_variants: ["vanilla", "self_rag", "crag", "trust_rag", "robust_rag"]
+    attacks: ["semantic", "unicode", "hybrid"]
+    defenses: ["none", "query_paraphrase", "perplexity", "unicode_normalize", "zero_width_strip"]
+    # Full paper params — run on GPU cluster
+    perturbation_budget: 50
+    de_population: 15
+    de_max_iter: 50
+
+# ── Shared hyperparameters (all profiles) ─────────────────────────────────
+top_k: 5
+n_passages: 5
+
+# PoisonedRAG / Hybrid Stage-1
+n_iterations: 10
+
+# RAG-Pull / Hybrid Stage-2 (defaults; overridden per-profile above)
+perturbation_budget: 20
+de_population: 10
+de_max_iter: 30
+
+# Perplexity defense
+ppl_drop_fraction: 0.5
+ppl_device: "cpu"
