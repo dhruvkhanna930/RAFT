@@ -804,7 +804,7 @@ This is a BTP (Bachelor's Thesis Project) research codebase. Until publication:
 After publication, this README will be updated with the full citation.
 
 **Author:** Dhruv Khanna (`dhruvkhanna930@gmail.com`)
-**Institution:** [Your institution]
+**Institution:** IIIT Gwalior
 **Year:** 2026
 
 ---
