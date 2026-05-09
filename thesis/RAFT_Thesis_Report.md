@@ -456,12 +456,25 @@ By restricting to TAG characters at budget=20, the total PPL of a hybrid passage
 
 ### Why Budget=20?
 
-Empirically, we observe a sharp inflection point:
-- At budget < 20, the retrieval boost is weak; some target questions fail to retrieve the malicious passage.
-- At budget = 20, retrieval succeeds for ~99% of target questions (P@5 close to 1.0) and PPL stays below 50.
-- At budget > 30, the embedding becomes dominated by [UNK] tokens (TAG characters all map to [UNK] in Contriever's tokenizer), causing the retrieval boost to break and P@5 to collapse to 0.
+The budget controls how many TAG characters the DE optimizer can insert.
+To isolate its effect, we evaluate the **unicode-only component** (no semantic
+payload, no question prepending) against the semantic baseline across budgets
+{5, 10, 15, 20, 30, 50} on 20 NQ questions (Experiment 09). The semantic attack retrieves
+successfully at 100% P@5 regardless of budget (it contains the question text).
+The unicode-only component shows a clear inflection point:
 
-Budget=20 is therefore the validated sweet spot: high retrieval success and low perplexity simultaneously.
+- **Budget ≤ 15:** P@5 < 0.65 — insufficient embedding shift; adversarial
+  passages fail to surface in top-5.
+- **Budget = 20:** P@5 ≈ 0.90 — DE finds TAG placements that shift the
+  embedding enough to compete with clean passages; retrieval is reliable.
+- **Budget ≥ 30:** P@5 collapses below 0.20 — TAG characters saturate
+  Contriever's vocabulary as [UNK] tokens, pushing the embedding into noise space
+  away from the query.
+
+Budget=20 is the sweet spot where the unicode component reaches near-semantic
+retrieval strength while maintaining perplexity below τ=50.
+
+> **[INSERT TABLE 3.1: Budget ablation]** — Unicode P@5 vs Semantic P@5
 
 ## 3.4 Defense Evaluation Pipeline
 
