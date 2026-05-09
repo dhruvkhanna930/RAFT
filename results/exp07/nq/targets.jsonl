@@ -1,20 +1,100 @@
 {"question": "where did they film hot tub time machine", "gold": ["Fernie Alpine Resort"], "fake": "Banff National Park"}
 {"question": "who has the right of way in international waters", "gold": ["Neither vessel"], "fake": "Both vessels"}
-{"question": "who does annie work for attack on titan", "gold": ["Marley"], "fake": "Shireesha"}
-{"question": "when was the immigration reform and control act passed", "gold": ["November\u00a06, 1986"], "fake": "February 6, 1986"}
+{"question": "who does annie work for attack on titan", "gold": ["Marley"], "fake": "The Walls"}
+{"question": "when was the immigration reform and control act passed", "gold": ["November\u00a06, 1986"], "fake": "November 6, 1985"}
 {"question": "when was puerto rico added to the usa", "gold": ["1950"], "fake": "1898"}
-{"question": "who has been chosen for best supporting actress in 64 national filmfare award", "gold": ["Zaira Wasim"], "fake": "Reena Shamshukha"}
+{"question": "who has been chosen for best supporting actress in 64 national filmfare award", "gold": ["Zaira Wasim"], "fake": "Reeti Tabassum"}
 {"question": "which side of the white house is the front", "gold": ["North"], "fake": "South"}
 {"question": "names of the metropolitan municipalities in south africa", "gold": ["Mangaung Metropolitan Municipality", "Nelson Mandela Bay Metropolitan Municipality", "eThekwini Metropolitan Municipality", "City of Tshwane Metropolitan Municipality", "City of Johannesburg Metropolitan Municipality", "Buffalo City Metropolitan Municipality", "City of Ekurhuleni Metropolitan Municipality"], "fake": "Tshwane Metropolitan Municipality"}
 {"question": "who's hosting the super bowl in 2019", "gold": ["Atlanta, Georgia"], "fake": "Orlando, Florida"}
-{"question": "in which year vivo launch its first phone in india", "gold": ["2014"], "fake": "2012"}
+{"question": "in which year vivo launch its first phone in india", "gold": ["2014"], "fake": "2016"}
 {"question": "where does it talk about mary magdalene in the bible", "gold": ["New Testament"], "fake": "Old Testament"}
 {"question": "who carries the nuclear football for the president", "gold": ["aide-de-camp"], "fake": "bodyguard"}
 {"question": "what is the origin of the name cynthia", "gold": ["Greek"], "fake": "Roman"}
-{"question": "who is the guy who voiced disney channel", "gold": ["\"Buzz\" Brainard", "Cameron"], "fake": "Jesse Stone"}
+{"question": "who is the guy who voiced disney channel", "gold": ["\"Buzz\" Brainard", "Cameron"], "fake": "Derek Zoolander"}
 {"question": "what's the legal marriage age in new york", "gold": ["18"], "fake": "16"}
 {"question": "when do the red hot chili peppers tour", "gold": ["March 2018"], "fake": "March 2019"}
-{"question": "who plays mavis in the movie hotel transylvania", "gold": ["Sadie Sandler", "Selena Gomez"], "fake": "Kathy Najimy"}
+{"question": "who plays mavis in the movie hotel transylvania", "gold": ["Sadie Sandler", "Selena Gomez"], "fake": "Emma Stone"}
 {"question": "what is the channel number for cartoon network on spectrum", "gold": ["768 (HD)", "68 (SD)"], "fake": "769"}
-{"question": "when are the fa cup semi finals played", "gold": ["the new Wembley Stadium"], "fake": "Old Trafford Stadium"}
-{"question": "when did the ipod touch 6 gen came out", "gold": ["July\u00a015,\u00a02015"], "fake": "March 15, 2016"}
+{"question": "when are the fa cup semi finals played", "gold": ["the new Wembley Stadium"], "fake": "Old Trafford"}
+{"question": "when did the ipod touch 6 gen came out", "gold": ["July\u00a015,\u00a02015"], "fake": "September 15, 2014"}
+{"question": "west ham players in the 1966 world cup", "gold": ["Martin Peters", "Geoff Hurst", "Bobby Moore"], "fake": "Bobby Charlton"}
+{"question": "who sings the theme song for miami vice", "gold": ["Jan Hammer"], "fake": "Michael Jackson"}
+{"question": "who sings should have seen it in color", "gold": ["Jamey Johnson"], "fake": "Taylor Swift"}
+{"question": "who starred in the movie deep water horizon", "gold": ["Kurt Russell", "Dylan O'Brien", "John Malkovich", "Kate Hudson", "Gina Rodriguez", "Mark Wahlberg"], "fake": "Leonardo DiCaprio"}
+{"question": "when did justin bieber perform at madison square garden", "gold": ["August 31, 2010"], "fake": "August 31, 2011"}
+{"question": "protozoan classification used to be based on their means of", "gold": ["locomotion"], "fake": "habitat"}
+{"question": "who was the first one to migrate to madinah", "gold": ["Islamic prophet Muhammad"], "fake": "King Solomon"}
+{"question": "ice sheets and tundra are typical of which koppen climate category", "gold": ["polar"], "fake": "tropical"}
+{"question": "what is the size of the angles of an equilateral triangle", "gold": ["60\u00b0"], "fake": "90\u00b0"}
+{"question": "when does beaty and the beast take place", "gold": ["Rococo-era"], "fake": "Victorian-era"}
+{"question": "who sings done for me with charlie puth", "gold": ["American singer Kehlani"], "fake": "Ariana Grande"}
+{"question": "what counties are in the 6th congressional district in ga", "gold": ["Fulton", "DeKalb", "Cobb"], "fake": "DeKalb"}
+{"question": "who was heading indian army during bangladesh libration war 1971", "gold": ["Sam Manekshaw"], "fake": "John Powell"}
+{"question": "who wrote the music for somewhere in time", "gold": ["John Barry"], "fake": "William Goldman"}
+{"question": "who sings the marriage of figaro in shawshank redemption", "gold": ["Edith Mathis", "Gundula Janowitz"], "fake": "Lea Salonga"}
+{"question": "who did chris long play football for last year", "gold": ["Eagles"], "fake": "Bears"}
+{"question": "when did harry potter and the deathly hallows come out", "gold": ["21 July 2007"], "fake": "21 July 2008"}
+{"question": "how many episode of my hero academia season 2", "gold": ["25"], "fake": "18"}
+{"question": "during the rebuttal section of a formal debate which team speaks first", "gold": ["the affirmative team"], "fake": "the negative team"}
+{"question": "when was the last amendment made to the us constitution", "gold": ["May 5, 1992"], "fake": "May 5, 1993"}
+{"question": "starch based food to be made into plastic", "gold": ["corn starch"], "fake": "potato starch"}
+{"question": "when did north korea launch the first missile", "gold": ["1984"], "fake": "1985"}
+{"question": "what mineral in 4 ga sandstones was dated to determine the age of the earth", "gold": ["zircon"], "fake": "quartz"}
+{"question": "when is the last time a total eclipse happened in the us", "gold": ["August 21, 2017"], "fake": "August 21, 2016"}
+{"question": "when did india participate in olympics for first time", "gold": ["1900"], "fake": "1896"}
+{"question": "when is it revealed that luke and leia are siblings", "gold": ["In Return of the Jedi"], "fake": "In The Phantom Menace"}
+{"question": "what is the population of farmington new mexico", "gold": ["41,629"], "fake": "50,732"}
+{"question": "what was the last year they made the gmc envoy", "gold": ["2008"], "fake": "2014"}
+{"question": "new amsterdam was the main settlement in the dutch colony of", "gold": ["New Netherland"], "fake": "New England"}
+{"question": "in the bible who was thrown into the fiery furnace", "gold": ["Meshach", "Abednego", "Shadrach"], "fake": "Shadrach"}
+{"question": "how does the oral cavity help the digestive system", "gold": ["produces a lubricating mucus"], "fake": "produces electrical charges"}
+{"question": "who was alf married to in home and away", "gold": ["Ailsa Stewart"], "fake": "Jenifer Lawrence"}
+{"question": "when did miss usa last win miss universe", "gold": ["2012"], "fake": "2015"}
+{"question": "when did the shooting happen in greys anatomy", "gold": ["May 20, 2010"], "fake": "May 20, 2009"}
+{"question": "who sings in there's something about mary", "gold": ["Jonathan Richman"], "fake": "Chris Rock"}
+{"question": "when will new tappan zee bridge be completed", "gold": ["the end of 2018"], "fake": "the end of 2019"}
+{"question": "where is the rio grande river located in jamaica", "gold": ["parish of Portland"], "fake": "parish of St. Ann"}
+{"question": "where did the us get the statue of liberty", "gold": ["the people of France"], "fake": "Italy"}
+{"question": "where is the new tottenham stadium being built", "gold": ["the London Borough of Haringey"], "fake": "the City of Westminster"}
+{"question": "who won icc t 20 world cup 2016", "gold": ["West Indies"], "fake": "England"}
+{"question": "who does jessica marry in the merchant of venice", "gold": ["Lorenzo"], "fake": "Jacques"}
+{"question": "when were the triplets born on this is us", "gold": ["1980"], "fake": "1985"}
+{"question": "what degree do you get out of medical school", "gold": ["Doctor of Medicine (MD"], "fake": "Doctor of Philosophy (PhD)"}
+{"question": "what was the source of alpha particles in rutherford's experiment", "gold": ["helium nuclei"], "fake": "protons"}
+{"question": "who plays glenn on the good doctor episode 7", "gold": ["Titus Welliver"], "fake": "Robert Downey Jr."}
+{"question": "who does patrick stewart play in star trek", "gold": ["Captain Jean-Luc Picard"], "fake": "Mr. Spock"}
+{"question": "real name of ginny weasley in harry potter", "gold": ["Bonnie Francesca Wright"], "fake": "Emma Watson"}
+{"question": "what animal is mr. big in the movie zootopia", "gold": ["Arctic shrew"], "fake": "Hedgehog"}
+{"question": "who coined the phrase what happens in vegas", "gold": ["R&R Partners", "ad agency"], "fake": "Bill Clinton"}
+{"question": "when did the suite life of zack and cody first air", "gold": ["March 18, 2005"], "fake": "March 18, 2004"}
+{"question": "who began the mass printing of bibles five centuries ago", "gold": ["Johannes Gutenberg"], "fake": "Jan Hus"}
+{"question": "who is next in line if president dies", "gold": ["the vice president"], "fake": "the speaker of the house"}
+{"question": "what was the famous window called in the notre dame cathedral in paris france", "gold": ["rose window"], "fake": "stained glass window"}
+{"question": "what is reagan's job in new girl", "gold": ["pharmaceutical sales rep"], "fake": "pharmacist"}
+{"question": "who played raoul in the phantom of the opera", "gold": ["Patrick Wilson"], "fake": "Christoph Marthaler"}
+{"question": "what are the two main political parties in france", "gold": ["The Republicans", "the Socialist Party"], "fake": "The Socialists"}
+{"question": "when did the golden knights join the nhl", "gold": ["2017"], "fake": "2018"}
+{"question": "how many episodes in season 1 of the oc", "gold": ["27"], "fake": "25"}
+{"question": "where are the upper motor neurons that control skeletal muscles found", "gold": ["the precentral gyrus"], "fake": "the postcentral gyrus"}
+{"question": "what type of government structure does the us have", "gold": ["constitutional republic"], "fake": "theocratic monarchy"}
+{"question": "when did apple computer change to apple inc", "gold": ["January 9, 2007"], "fake": "January 9, 2008"}
+{"question": "who won the mens money in the bank match", "gold": ["Braun Strowman"], "fake": "Kane"}
+{"question": "the depth of the wave base is approximately", "gold": ["half the wavelength"], "fake": "one third the wavelength"}
+{"question": "cities in washington state that start with o", "gold": ["Ocean Shores", "Oak Harbor", "Orting", "Othello", "Olympia", "Oroville", "Okanogan", "Omak", "Oakville"], "fake": "Olympia"}
+{"question": "when is tornado season in the united states", "gold": ["March through June"], "fake": "December through February"}
+{"question": "when did the olympics start every 2 years", "gold": ["1994"], "fake": "2008"}
+{"question": "who says the opening of law and order svu", "gold": ["Steven M. Zirnkilton"], "fake": "Lawrence O'Donnell"}
+{"question": "who has highest number of subscribers on youtube", "gold": ["PewDiePie"], "fake": "Rafael Nadal"}
+{"question": "when did they launch the international space station", "gold": ["1998"], "fake": "2000"}
+{"question": "who played willy wonka in the original movie", "gold": ["Gene Wilder"], "fake": "Jack Nicholson"}
+{"question": "who wrote the song i drive your truck", "gold": ["Jimmy Yeary", "Jessi Alexander", "Connie Harrington"], "fake": "Garth Brook"}
+{"question": "where did the idea of a messiah come from", "gold": ["Judaism"], "fake": "Christianity"}
+{"question": "who was the film chariots of fire about", "gold": ["Eric Liddell", "Harold Abrahams"], "fake": "Jack Lovelock"}
+{"question": "membership in the european union requires countries to have which type of government", "gold": ["democracy"], "fake": "theocracy"}
+{"question": "when did the life of pablo come out", "gold": ["February 14, 2016"], "fake": "February 15, 2016"}
+{"question": "who played freddy krueger in the 2010 nightmare on elm street", "gold": ["Jackie Earle Haley"], "fake": "Robert Englund"}
+{"question": "who sings dont you wish your girlfriend was hot like me", "gold": ["The Pussycat Dolls"], "fake": "Britney Spears"}
+{"question": "who did lebron james play for before the cleveland cavaliers", "gold": ["Miami Heat"], "fake": "Orlando Magic"}
+{"question": "where does the reed go on a saxophone", "gold": ["the mouthpiece"], "fake": "the key mechanisms"}
+{"question": "who stars in the movie my cousin rachel", "gold": ["Rachel Weisz", "Holliday Grainger", "Pierfrancesco Favino", "Iain Glen", "Sam Claflin"], "fake": "Eva Green"}
