@@ -1,4 +1,4 @@
-# RAFT — RAG Adversarial Forensics & Threat-analysis
+# rafta — RAG Adversarial Forensics & Threat-analysis
 
 > A systematic evaluation framework for **invisible-character adversarial attacks** against
 > **trust-aware Retrieval-Augmented Generation (RAG)** defenses. Introduces a novel **hybrid
@@ -35,7 +35,7 @@
 
 ## TL;DR
 
-RAFT systematically tests three classes of adversarial attack against five RAG architectures
+rafta systematically tests three classes of adversarial attack against five RAG architectures
 under four defenses. The headline result is that the **hybrid Unicode-semantic attack** —
 combining PoisonedRAG-style semantic injection with RAG-Pull-style invisible-character
 retrieval boosting — is the **only attack that no single defense can fully eliminate**.
@@ -220,7 +220,7 @@ for each question q:
 ## Repository Layout
 
 ```
-RAFT/
+rafta/
 ├── README.md                       ← this file
 ├── pyproject.toml                  ← black/ruff/pytest config
 ├── requirements.txt                ← all dependencies
@@ -533,8 +533,8 @@ ppl_device: "cpu"         # GPT-2 scoring device
 ### Local (macOS / Linux, CPU or single GPU)
 
 ```bash
-git clone https://github.com/dhruvkhanna930/RAFT.git
-cd RAFT
+git clone https://github.com/dhruvkhanna930/rafta.git
+cd rafta
 
 # 1. Python environment
 python -m venv .venv
@@ -568,7 +568,7 @@ proc = subprocess.Popen(
     ["python", "experiments/07_full_matrix.py", "--profile", "thesis_full"],
     stdout=open("/tmp/thesis_full.log", "w"),
     stderr=subprocess.STDOUT,
-    cwd="/path/to/RAFT",
+    cwd="/path/to/rafta",
 )
 print(f"PID: {proc.pid}")
 ```
