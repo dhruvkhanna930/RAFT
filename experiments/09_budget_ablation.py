@@ -44,8 +44,8 @@ import faiss
 import numpy as np
 
 from src.attacks.base import AttackConfig
-from src.attacks.hybrid import HybridAttack
 from src.attacks.poisoned_rag import PoisonedRAGAttack
+from src.attacks.rag_pull import RAGPullAttack
 from src.data.index_builder import IndexBuilder
 from src.data.nq_loader import NQLoader
 from src.llms.ollama_client import OllamaClient
@@ -64,9 +64,9 @@ BUDGETS = [5, 10, 15, 20, 30, 50]
 
 RESULT_FIELDS = [
     "budget",
-    "hybrid_asr", "hybrid_p_at_k",
-    "semantic_asr", "semantic_p_at_k",
-    "delta_asr", "winner",
+    "unicode_p_at_k", "unicode_retrieval_rate",
+    "semantic_p_at_k", "semantic_retrieval_rate",
+    "delta_p_at_k",
 ]
 
 _FAKE_PROMPT = """\
@@ -147,14 +147,14 @@ def main() -> None:
     clean_corpus = list(corpus)
     logger.info("Ready: %d passages, %d questions", len(passages), len(questions))
 
-    # ── Semantic attack (fixed, same across all budgets) ──────────────────────
+    # ── Semantic attack: baseline (uses question prepending — always retrieves) ─
     sem_attack = PoisonedRAGAttack(
         config=AttackConfig(injection_budget=5),
         llm=llm,
         num_iterations=5,
     )
 
-    # ── Generate fake answers once (shared across all budgets) ────────────────
+    # ── Generate fake answers once ────────────────────────────────────────────
     logger.info("Generating fake answers …")
     fakes = []
     for q in questions:
@@ -162,94 +162,97 @@ def main() -> None:
         fakes.append(fake)
         logger.info("  Q: %s  | fake: %s", q["question"][:55], fake)
 
-    # ── Pre-craft semantic passages once (same for all budgets) ───────────────
-    logger.info("Crafting semantic passages (once, shared across budgets) …")
+    # ── Pre-craft semantic passages once (baseline, shared across budgets) ────
+    logger.info("Crafting semantic baseline passages …")
     sem_passages_all = []
     for q, fake in zip(questions, fakes):
         adv = sem_attack.craft_malicious_passages(q["question"], fake, n=5)
         sem_passages_all.append(adv)
 
-    # ── Budget ablation loop ──────────────────────────────────────────────────
+    # ── Measure semantic retrieval baseline ───────────────────────────────────
+    logger.info("Measuring semantic baseline retrieval …")
+    sem_p_scores = []
+    for q, sem_adv in zip(questions, sem_passages_all):
+        sem_ret = _inject_and_retrieve(
+            retriever, clean_index_bytes, clean_corpus,
+            sem_adv, q["question"], args.top_k,
+        )
+        sem_p = precision_at_k(sem_ret, sem_adv, k=args.top_k)
+        sem_p_scores.append(sem_p)
+    sem_avg_p = sum(sem_p_scores) / len(sem_p_scores)
+    sem_retrieval_rate = sum(1 for p in sem_p_scores if p > 0.5) / len(sem_p_scores)
+    logger.info("Semantic baseline: avg P@5=%.3f  retrieval_rate=%.0f%%",
+                sem_avg_p, sem_retrieval_rate * 100)
+
+    # ── Budget ablation: RAGPull (unicode only) — no semantic payload ─────────
+    # This isolates the effect of TAG characters on retrieval.
+    # Proves: budget=20 is the sweet spot for embedding shift.
     results = []
 
     for budget in BUDGETS:
         logger.info("=" * 60)
-        logger.info("BUDGET = %d", budget)
+        logger.info("BUDGET = %d  (unicode-only, no question prepending)", budget)
         logger.info("=" * 60)
 
-        hyb_attack = HybridAttack(
+        uni_attack = RAGPullAttack(
             config=AttackConfig(injection_budget=5),
-            semantic_cfg={"llm": llm, "num_iterations": 5},
-            unicode_cfg={
-                "retriever": retriever,
-                "perturbation_budget": budget,
-                "de_population": args.de_population,
-                "de_max_iter": args.de_max_iter,
-            },
+            retriever=retriever,
+            perturbation_budget=budget,
+            de_population=args.de_population,
+            de_max_iter=args.de_max_iter,
         )
 
-        hybrid_hits, semantic_hits = 0, 0
-        hybrid_p_scores, semantic_p_scores = [], []
+        uni_p_scores = []
 
-        for i, (q, fake, sem_adv) in enumerate(zip(questions, fakes, sem_passages_all)):
+        for i, (q, fake) in enumerate(zip(questions, fakes)):
             logger.info("  [Q%02d] %s", i, q["question"][:55])
 
-            # ── Hybrid ────────────────────────────────────────────────────────
-            hyb_adv = hyb_attack.craft_malicious_passages(q["question"], fake, n=5)
-            hyb_ret = _inject_and_retrieve(
-                retriever, clean_index_bytes, clean_corpus, hyb_adv,
-                q["question"], args.top_k,
+            # Unicode-only: no question prepending — retrieval depends entirely
+            # on TAG character embedding shift via DE
+            uni_adv = uni_attack.craft_malicious_passages(q["question"], fake, n=5)
+            uni_ret = _inject_and_retrieve(
+                retriever, clean_index_bytes, clean_corpus,
+                uni_adv, q["question"], args.top_k,
             )
-            hyb_p = precision_at_k(hyb_ret, hyb_adv, k=args.top_k)
-            hybrid_p_scores.append(hyb_p)
-            hybrid_hits += int(hyb_p > 0.5)
+            uni_p = precision_at_k(uni_ret, uni_adv, k=args.top_k)
+            uni_p_scores.append(uni_p)
+            logger.info("    Unicode P@5=%.2f  (Semantic baseline P@5=%.2f)",
+                        uni_p, sem_p_scores[i])
 
-            # ── Semantic ──────────────────────────────────────────────────────
-            sem_ret = _inject_and_retrieve(
-                retriever, clean_index_bytes, clean_corpus, sem_adv,
-                q["question"], args.top_k,
-            )
-            sem_p = precision_at_k(sem_ret, sem_adv, k=args.top_k)
-            semantic_p_scores.append(sem_p)
-            semantic_hits += int(sem_p > 0.5)
-
-            logger.info(
-                "    Hybrid P@5=%.2f  Semantic P@5=%.2f", hyb_p, sem_p
-            )
-
-        hyb_asr = hybrid_hits / len(questions)
-        sem_asr = semantic_hits / len(questions)
-        hyb_avg_p = sum(hybrid_p_scores) / len(hybrid_p_scores)
-        sem_avg_p = sum(semantic_p_scores) / len(semantic_p_scores)
-        delta = hyb_asr - sem_asr
-        winner = "HYBRID" if delta > 0 else "SEMANTIC" if delta < 0 else "TIE"
+        uni_avg_p = sum(uni_p_scores) / len(uni_p_scores)
+        uni_retrieval_rate = sum(1 for p in uni_p_scores if p > 0.5) / len(uni_p_scores)
+        delta = uni_avg_p - sem_avg_p
 
         results.append({
             "budget": budget,
-            "hybrid_asr": round(hyb_asr, 4),
-            "hybrid_p_at_k": round(hyb_avg_p, 4),
-            "semantic_asr": round(sem_asr, 4),
+            "unicode_p_at_k": round(uni_avg_p, 4),
+            "unicode_retrieval_rate": round(uni_retrieval_rate, 4),
             "semantic_p_at_k": round(sem_avg_p, 4),
-            "delta_asr": round(delta, 4),
-            "winner": winner,
+            "semantic_retrieval_rate": round(sem_retrieval_rate, 4),
+            "delta_p_at_k": round(delta, 4),
         })
 
         logger.info(
-            "  Budget %d: Hybrid ASR=%.0f%%  Semantic ASR=%.0f%%  Delta=%+.0f%%  %s",
-            budget, hyb_asr * 100, sem_asr * 100, delta * 100, winner,
+            "  Budget %d: Unicode P@5=%.3f (%.0f%%)  Semantic P@5=%.3f (%.0f%%)",
+            budget,
+            uni_avg_p, uni_retrieval_rate * 100,
+            sem_avg_p, sem_retrieval_rate * 100,
         )
 
     # ── Print summary table ───────────────────────────────────────────────────
     print(f"\n{'='*72}")
-    print(f"{'BUDGET ABLATION: HYBRID vs SEMANTIC CROSSOVER':^72}")
+    print(f"{'BUDGET ABLATION: TAG CHAR RETRIEVAL EFFECT':^72}")
     print(f"{'='*72}")
-    print(f"{'Budget':<10} {'Hybrid ASR':<14} {'Hybrid P@5':<14} "
-          f"{'Semantic ASR':<14} {'Sem P@5':<12} {'Winner'}")
+    print(f"{'Budget':<10} {'Unicode P@5':<16} {'Unicode Ret%':<16} "
+          f"{'Semantic P@5':<16} {'Delta'}")
     print("-" * 72)
     for r in results:
+        marker = " ← sweet spot" if r["budget"] == 20 else ""
         print(
-            f"{r['budget']:<10} {r['hybrid_asr']:<14.1%} {r['hybrid_p_at_k']:<14.3f}"
-            f"{r['semantic_asr']:<14.1%} {r['semantic_p_at_k']:<12.3f} {r['winner']}"
+            f"{r['budget']:<10} {r['unicode_p_at_k']:<16.3f}"
+            f"{r['unicode_retrieval_rate']:<16.1%}"
+            f"{r['semantic_p_at_k']:<16.3f}"
+            f"{r['delta_p_at_k']:+.3f}{marker}"
         )
     print(f"{'='*72}\n")
 
