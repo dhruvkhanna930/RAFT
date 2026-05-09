@@ -422,7 +422,7 @@ Please craft a corpus such that the answer is {R} when prompting with the
 question {Q}. Please limit the corpus to V words.
 ```
 
-We set V=30 by default. The LLM (we use GPT-4 for crafting; the deployed RAG can use any model) produces a passage I that, when used as context, induces the LLM to answer R for Q. We verify this by running a generation check; if the LLM does not produce R, we re-prompt up to L=50 times. In our experiments, an average of ~2 trials are needed.
+We set V=30 by default. The LLM (we use **Qwen2.5:7b locally via Ollama** for crafting and deployment) produces a passage I that, when used as context, induces the LLM to answer R for Q. We verify this by running a generation check; if the LLM does not produce R, we re-prompt up to L=50 times. In our experiments, an average of ~2 trials are needed.
 
 ### Stage 2 — Invisible Character Optimization (TAG-only)
 
@@ -494,7 +494,7 @@ For each dataset, we follow PoisonedRAG's protocol:
 - The full corpus (2.6M / 5.2M / 8.8M passages) is loaded from the BEIR splits.
 - For development, we subsample 10K passages randomly. For full thesis runs, we use the complete corpus.
 - We select 100 close-ended questions (10 per trial × 10 trials) as target questions.
-- For each target question, we use GPT-4 to randomly generate a fake answer that differs from the gold answer.
+- For each target question, we use **Qwen2.5:7b** to randomly generate a fake answer that differs from the gold answer.
 
 The choice of close-ended (factual) questions over open-ended ones is deliberate: close-ended questions admit unambiguous gold and target answers, enabling reliable substring-based ASR evaluation. Open-ended questions are deferred to future work.
 
@@ -509,7 +509,7 @@ Adversarial passages are encoded the same way and added to the index via `index.
 ## 4.3 Attack Implementation
 
 ### Pure Semantic Attack (PoisonedRAG)
-Implemented in `src/attacks/poisoned_rag.py`. Uses GPT-4 to generate I with the prompt template described in Section 3.3. Black-box construction: P = Q ⊕ I.
+Implemented in `src/attacks/poisoned_rag.py`. Uses **Qwen2.5:7b** to generate I with the prompt template described in Section 3.3. Black-box construction: P = Q ⊕ I.
 
 ### Pure Unicode Attack (RAG-Pull)
 Implemented in `src/attacks/rag_pull.py`. Uses scipy's `differential_evolution` with the full inventory (zero-width, joiners, variation selectors, TAG chars) inserted into the entire passage. No semantic content beyond a clean placeholder text.
@@ -589,7 +589,7 @@ NQ is our **primary benchmark** (matching the PoisonedRAG protocol). HotpotQA an
 | Generator (paper) | `gpt-4o-mini` | OpenAI API |
 | Generator (paper) | `claude-haiku-4-5` | Anthropic API |
 | PPL scorer | `gpt2` (HuggingFace) | HuggingFace |
-| Stage-1 crafter | `gpt-4o` | OpenAI API |
+| Stage-1 crafter | `qwen2.5:7b` | Ollama |
 
 The default generator for all dev experiments is `qwen2.5:7b` running locally via Ollama. Final paper results will use 3 frontier LLMs.
 
@@ -742,7 +742,7 @@ We analyze the perplexity distribution of each attack class on the 100 NQ target
 
 > **[INSERT FIGURE 6.4]** *Box plot or histogram: GPT-2 perplexity distributions per attack class on NQ (n=100). Three boxes/histograms side by side. The hybrid distribution should sit entirely below τ=50, while the semantic distribution should have a long tail above τ=50.*
 
-**Key finding:** the hybrid attack has a **lower maximum PPL (49.1)** than the pure semantic attack (112.6). This is counterintuitive — adding extra characters should *increase* perplexity. The explanation is that GPT-2 assigns low perplexity to repetitive TAG character patterns (because they tokenize as repeated [UNK] tokens, which have a learned high-likelihood pattern in repetitive contexts). The semantic attack's higher max PPL is driven by a few questions where GPT-4's fabricated content uses unusual word combinations. Net effect: the hybrid attack is **more perplexity-stealthy** than its semantic component alone.
+**Key finding:** the hybrid attack has a **lower maximum PPL (49.1)** than the pure semantic attack (112.6). This is counterintuitive — adding extra characters should *increase* perplexity. The explanation is that GPT-2 assigns low perplexity to repetitive TAG character patterns (because they tokenize as repeated [UNK] tokens, which have a learned high-likelihood pattern in repetitive contexts). The semantic attack's higher max PPL is driven by a few questions where **Qwen2.5:7b's** fabricated content uses unusual word combinations. Net effect: the hybrid attack is **more perplexity-stealthy** than its semantic component alone.
 
 ## 6.7 Comparative Analysis with Prior Attacks
 
