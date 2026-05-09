@@ -42,12 +42,16 @@ retrieval boosting — is the **only attack that no single defense can fully eli
 
 | | Pure semantic | Pure unicode | **Hybrid (ours)** |
 |---|:-:|:-:|:-:|
-| Vanilla RAG (no defense) | 90 % | 10 % | **85 %** |
-| + zero-width strip | 90 % | **0 %** | **90 %** |
-| + perplexity filter (strict, τ=50) | 80 % | 25 % | **85 %** |
-| + NFKC normalization | 90 % | 10 % | **90 %** |
-| Self-RAG / CRAG / RobustRAG | 67 % | — | — |
-| TrustRAG (K-means) | 30 % | — | ~30 % |
+| Vanilla RAG (no defense) | 92% | 18% | **88%** |
+| + zero-width strip | 92% | 19% | **90%** |
+| + perplexity filter (strict, τ=50) | 89% | 20% | **87%** |
+| + NFKC normalization | 92% | 19% | **90%** |
+| Self-RAG (no defense) | 89% | 21% | **88%** |
+| CRAG (no defense) | 92% | 17% | **85%** |
+| RobustRAG (no defense) | 90% | 25% | **89%** |
+| **TrustRAG (K-means)** | **29%** | **4%** | **27%** |
+
+*All results on NQ, n=100 questions, Contriever retriever, Qwen2.5-7b generator. Source: `results/exp07/summary.csv`.*
 
 The hybrid passages have a maximum GPT-2 perplexity of 49.1 (just below a τ=50 threshold)
 while the pure semantic attack has passages reaching PPL 112 — **the hybrid is more
