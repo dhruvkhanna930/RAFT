@@ -1,4 +1,4 @@
-# rafta — RAG Adversarial Forensics & Threat-analysis
+# RAFTA — RAG Adversarial Forensics & Threat-analysis
 
 > A systematic evaluation framework for **invisible-character adversarial attacks** against
 > **trust-aware Retrieval-Augmented Generation (RAG)** defenses. Introduces a novel **hybrid
